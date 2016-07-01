@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -36,8 +37,9 @@ public class GhostActivity extends AppCompatActivity {
 
 
     private GhostDictionary dictionary;
+    private GhostDictionary dictionary2;
     private boolean userTurn = false;
-    private boolean slow     = true;
+    private boolean slow     = false;
     private Random random    = new Random();
 
     @Override
@@ -47,7 +49,9 @@ public class GhostActivity extends AppCompatActivity {
         AssetManager assetManager = getAssets();
         try {
             InputStream inputStream = assetManager.open("words.txt");
-            dictionary = new SimpleDictionary(inputStream);
+        //    dictionary  = new SimpleDictionary(inputStream);
+            dictionary2 = new FastDictionary(inputStream);
+
 
         } catch (IOException e) {
             Toast toast = Toast.makeText(this, "Could not load dictionary", Toast.LENGTH_LONG);
@@ -85,7 +89,7 @@ public class GhostActivity extends AppCompatActivity {
             return true;
         }
 
-        // using getGoogWordStartingWith
+        // using getGoodWordStartingWith
         if (id == R.id.fast) {
             slow          = false;
             playerScore   = 0;
@@ -94,6 +98,18 @@ public class GhostActivity extends AppCompatActivity {
             onStart();
             return true;
         }
+        /**
+         * future feature:
+         * using Trie with the new extensions to methods
+        if (id == R.id.hard) {
+            slow          = false;
+            playerScore   = 0;
+            computerScore = 0;
+            updateScores();
+            onStart();
+            return true;
+        }
+         */
 
         return super.onOptionsItemSelected(item);
     }
@@ -130,7 +146,7 @@ public class GhostActivity extends AppCompatActivity {
 
         text.setText(fragment.toLowerCase());
 
-        if(dictionary.isWord(fragment.toLowerCase())){
+        if(dictionary2.isWord(fragment.toLowerCase())){
             label.setText("You lost!");
             computerScore++;
             updateScores();
@@ -148,7 +164,6 @@ public class GhostActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i("TAG", "onSaveInstanceState");
     }
 
     @Override
@@ -199,12 +214,10 @@ public class GhostActivity extends AppCompatActivity {
 
         // Do computer turn stuff then make it the user's turn again
 
-
         if(slow) {
-            possibleWord = dictionary.getAnyWordStartingWith(fragment);
+            possibleWord = dictionary2.getAnyWordStartingWith(fragment);
         } else {
-            possibleWord = dictionary.getGoodWordStartingWith(fragment);
-
+            possibleWord = dictionary2.getGoodWordStartingWith(fragment);
         }
 
         if(possibleWord == null) {
@@ -214,6 +227,12 @@ public class GhostActivity extends AppCompatActivity {
             return;
         }
 
+        Log.d("computerTurn", "inside method call");
+
+        text.setText(fragment + possibleWord.substring(0,1));
+
+        // for SimpleDictionary
+        /**
         int possibleWordSize  = fragment.length();
         String computerOutput = possibleWord.substring(possibleWordSize);
 
@@ -225,6 +244,7 @@ public class GhostActivity extends AppCompatActivity {
         } else {
             text.setText(fragment + computerOutput.substring(0, 1));
         }
+         */
 
         userTurn = true;
         label.setText(USER_TURN);
@@ -234,7 +254,7 @@ public class GhostActivity extends AppCompatActivity {
         TextView text  = (TextView) findViewById(R.id.ghostText);
         TextView label = (TextView) findViewById(R.id.gameStatus);
 
-        if(dictionary.isWord(text.getText().toString().toLowerCase())){
+        if(dictionary2.isWord(text.getText().toString().toLowerCase())){
             playerScore++;
             label.setText("You Win!");
         } else {

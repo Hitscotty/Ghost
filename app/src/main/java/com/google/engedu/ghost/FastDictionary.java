@@ -1,9 +1,12 @@
 package com.google.engedu.ghost;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 
 public class FastDictionary implements GhostDictionary {
@@ -17,7 +20,7 @@ public class FastDictionary implements GhostDictionary {
         while((line = in.readLine()) != null) {
             String word = line.trim();
             if (word.length() >= MIN_WORD_LENGTH)
-                root.add(line.trim());
+            root.add(line.trim());
         }
     }
     @Override

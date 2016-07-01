@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="slow_mode">Snail</string>
     <string name="fast_mode">Rabbit</string>
+    <string name="hard_mode">Cheetah</string>
+
 
 
 </resources>

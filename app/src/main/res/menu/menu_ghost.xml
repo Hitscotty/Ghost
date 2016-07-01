@@ -5,9 +5,10 @@
 
 
     <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+          android:title="@string/action_settings"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+
 
     <item android:id="@+id/slow"
         android:title="@string/slow_mode"
@@ -18,5 +19,11 @@
         android:title="@string/fast_mode"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
+    <item android:id="@+id/hard"
+        android:title="@string/hard_mode"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 
 </menu>
