@@ -11,4 +11,22 @@ So on player 1's turn, they can:
  + add a letter to move the fragment towards a valid word 
  + attempt to bluff player 2 by adding a letter that doesn't move the fragment towards a valid word
 
-[Further Description of Project here](https://cswithandroid.withgoogle.com/content/unit?unit=7&lesson=9)
+## User Interface
+![UI](https://github.com/Hitscotty/Ghost/blob/master/ghost.png)
+
+## Tour of Code 
+
++ GhostDictionary: Note that this is an interface, not a class. This is the shared interface for SimpleDictionary and FastDictionary. This shared interface makes it easy to swap between the two kinds of dictionaries in the activity.
++ SimpleDictionary: This is an implementation of the dictionary that stores the words in an ArrayList.
++ getAnyWordStartingWith: will naively use binary search to look for some word that starts with the given prefix.
++ getGoodWordStartingWith: will still use binary search but will try to make a smarter word selection than getAnyWordStartingWith
++ FastDictionary: This is an implementation of our dictionary that stores the words in a trie (we will implement this in the next unit). The interface is the same as SimpleDictionary and the given implementation is complete as all the actual functionality goes into the TrieNode class.
++ TrieNode: Used to create a graph of strings, each char being a node and the leafs being words. Each node has a boolean that dictates whether the path up to that char is a word. 
+
+
+
+[Further Description of Project here][android]
+
+
+
+[android]: https://cswithandroid.withgoogle.com/content/unit?unit=7&lesson=9
