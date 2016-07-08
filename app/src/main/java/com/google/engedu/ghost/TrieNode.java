@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -52,7 +53,6 @@ public class TrieNode {
         TrieNode nextNode                = null;
         int end                          = 0;
         boolean wordExists               = false;
-
 
         Log.d("isWord","checking for word: " + s);
         char [] keys = s.toCharArray();
@@ -127,7 +127,7 @@ public class TrieNode {
        return getBetterWord(s, nextNode);
     }
 
-
+    //----------------------------------------------------------------------------------------------
     //                                  helper functions
     //----------------------------------------------------------------------------------------------
     public String getWord(TrieNode node){
@@ -154,32 +154,31 @@ public class TrieNode {
         return betterKeys;
     }
 
-    public String getSmarterWord(TrieNode node){
-        HashMap<String, TrieNode> keys = node.children;
-        int height = 0;
-        String smartWord  = "";
+    //----------------------------------------------------------------------------------------------
+    /**
+     * AI: Smarter Computer Feature Below
+     */
+    //----------------------------------------------------------------------------------------------
 
-        for(String key: keys.keySet()){
-            int heightAtNode = heightOfTrie(keys.get(key));
-            if(height < heightAtNode){
-                height = heightAtNode;
-                smartWord = key;
-            }
+
+
+    public int getLikelySum(HashMap<String, TrieNode> node, int depth){
+        int sum   = 0;
+        depth     = 1;
+
+        //since we are using hashmaps in order to access children
+        // we need to use keys, so iterate through all keys of node
+        // this looks bad, but I couldn't surmise another way
+        for(String child : node.keySet()){
+
+            TrieNode c = node.get(child);
+            if(c.isWord) return depth % sum;
+
+            sum += getLikelySum(c.children, depth + 1);
+
         }
 
-        return null;
+        return -1;
     }
 
-    public int heightOfTrie(TrieNode node){
-        HashMap<String, TrieNode> keys = node.children;
-        int height = 0;
-
-        for(String key: keys.keySet()){
-            while(keys.get(key) != null){
-
-            }
-        }
-
-        return height;
-    }
 }
